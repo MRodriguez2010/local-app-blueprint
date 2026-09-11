@@ -1,0 +1,18 @@
+services:
+  worker:
+    image: "${WORKER_IMAGE:?Set an immutable worker image tag or digest}"
+    restart: unless-stopped
+    env_file: .env
+    # Enable only after verifying NVIDIA Container Toolkit on the PC:
+    # gpus: all
+    volumes:
+      - "${PC_MODEL_DIR:?Set a PC-local model directory}:/worker/models"
+      - "${PC_CACHE_DIR:?Set a PC-local cache directory}:/worker/cache"
+      - "${PC_SCRATCH_DIR:?Set a PC-local scratch directory}:/worker/scratch"
+      - "${NAS_MEDIA_MOUNT:?Set a verified NAS media mount}:/worker/media:ro"
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+
+    # No published ports: the worker connects outbound to the NAS app.

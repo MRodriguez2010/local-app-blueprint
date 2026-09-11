@@ -1,0 +1,19 @@
+services:
+  app:
+    image: "${APP_IMAGE:?Set an immutable image tag or digest}"
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "${LAN_BIND_IP:?Set the NAS physical-LAN IP}:${APP_PORT:-8080}:${CONTAINER_PORT:-8080}"
+    volumes:
+      - "${APP_DATA_DIR:?Set the NAS data directory}:/app/data"
+      - "${APP_JOBS_DIR:?Set the NAS job directory}:/app/jobs"
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD-SHELL", "${HEALTHCHECK_COMMAND:?Set the health command}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

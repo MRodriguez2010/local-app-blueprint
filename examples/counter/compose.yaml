@@ -1,0 +1,22 @@
+services:
+  counter:
+    build: .
+    ports:
+      - "127.0.0.1:${COUNTER_PORT:-8080}:8080"
+    environment:
+      APP_ALLOWED_HOST: "127.0.0.1:${COUNTER_PORT:-8080}"
+    volumes:
+      - counter-data:/app/data
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 64
+    mem_limit: 128m
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import os,urllib.request; r=urllib.request.Request('http://127.0.0.1:8080/health',headers={'Host':os.environ['APP_ALLOWED_HOST']}); urllib.request.urlopen(r,timeout=2)\""]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+volumes:
+  counter-data:
