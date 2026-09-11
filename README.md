@@ -4,7 +4,7 @@ A small starting point for apps that run on a NAS or a trusted local machine.
 Develop on your laptop or PC; keep the running release, durable data, and backups
 on the NAS. Add an outbound PC worker only when a job needs its CPU or GPU.
 
-[![CI](https://github.com/MRodriguez2010/local-app-blueprint/actions/workflows/ci.yml/badge.svg)](https://github.com/MRodriguez2010/local-app-blueprint/actions/workflows/ci.yml)
+[Verification workflow](https://github.com/MRodriguez2010/local-app-blueprint/actions/workflows/ci.yml) · [Local verification](VERIFICATION.md)
 
 ## Try the runnable example
 
